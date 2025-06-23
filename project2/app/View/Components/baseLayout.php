@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class SearchForm extends Component
+class baseLayout extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class SearchForm extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.search-form');
+        return view('layouts.clean');
     }
 }

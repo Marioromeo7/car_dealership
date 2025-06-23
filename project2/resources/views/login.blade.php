@@ -1,6 +1,6 @@
-@extends('layouts.clean')
-@section('title','login')
-@section('ChildContent')
+<x-base-layout title="login" bodyClass="page-login">
+
+
 <main>
     <div class="container-small page-login">
       <div class="flex" style="gap: 5rem">
@@ -43,7 +43,7 @@
             </div>
             <div class="login-text-dont-have-account">
               Don't have an account? -
-              <a href="/signup.html"> Click here to create one</a>
+              <a href="{{route("signup")}}"> Click here to create one</a>
             </div>
           </form>
         </div>
@@ -53,4 +53,5 @@
       </div>
     </div>
   </main>
-@endsection
+
+</x-base-layout>
