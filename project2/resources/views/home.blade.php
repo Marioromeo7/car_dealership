@@ -24,7 +24,7 @@
                     </div>
                   </div>
                   <div class="slide-image">
-                    <img src="/img/car-png-39071.png" alt="" class="img-responsive" />
+                    <img src="{{asset("/img/car-png-39071.png")}}" alt="" class="img-responsive" />
                   </div>
                 </div>
               </div>

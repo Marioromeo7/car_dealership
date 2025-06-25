@@ -38,7 +38,7 @@
                                     <div class="car-item card">
                     <a href="{{route("car.show",1)}}">
                       <img
-                        src="/img/cars/Lexus-RX200t-2016/1.jpeg"
+                        src="{{asset("img/cars/Lexus-RX200t-2016/1.jpeg")}}"
                         alt=""
                         class="car-item-img rounded-t"
                       />

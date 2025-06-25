@@ -25,7 +25,7 @@
       rel="stylesheet"
     /> -->
 
-    <link rel="stylesheet" href="/css/app.css" />
+    <link rel="stylesheet" href="{{Vite::asset("resources/css/app.css")}}" />
     <!-- <link rel="stylesheet" href="css/output.css" /> -->
   </head>
   <body @if ($bodyClass)class="{{$bodyClass}}"@endif>
@@ -36,6 +36,6 @@ integrity="sha512-XJgPMFq31Ren4pKVQgeD+0JTDzn0IwS1802sc+QTZckE6rny7AN2HLReq6Yamw
 crossorigin="anonymous"
 referrerpolicy="no-referrer"
 ></script>
-<script src="/js/app.js"></script>
+<script src="{{Vite::asset("resources/js/app.js")}}"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 <x-app-layout>
+  @include('patials.header')
         <main>
       <div>
         <div class="container">
@@ -29,7 +30,7 @@
                     <td>Yes</td>
                     <td class="">
                       <a
-                        href="edit_car.html"
+                        href="{{route('car.edit',1)}}"
                         class="btn btn-edit inline-flex items-center"
                       >
                         <svg
@@ -50,7 +51,7 @@
                         edit
                       </a>
                       <a
-                        href="car_images.html"
+                        href="{{route('car.show',1)}}"
                         class="btn btn-edit inline-flex items-center"
                       >
                         <svg
