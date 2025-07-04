@@ -1,5 +1,5 @@
-@props(['title'=>''])
-<x-base-layout :$title>
+@props(['title'=>'','bodyClass'=>''])
+<x-base-layout :$title :$bodyClass>
 @include('patials.header')
 {{$slot}}
 <footer></footer>

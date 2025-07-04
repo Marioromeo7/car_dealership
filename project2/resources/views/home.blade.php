@@ -1,6 +1,6 @@
 
 <x-app-layout title="home">
- 
+
         <!-- Home Slider -->
         <section class="hero-slider">
             <!-- Carousel wrapper -->
@@ -19,7 +19,7 @@
                         multiple search criteria: Maker, Model, Year, Price Range, Car
                         Type, etc...
                       </p>
-      
+
                       <button class="btn btn-hero-slider">Find the car</button>
                     </div>
                   </div>
@@ -41,7 +41,7 @@
                         Submit your car in our user friendly interface, describe it,
                         upload photos and the perfect buyer will find it...
                       </p>
-      
+
                       <button class="btn btn-hero-slider">Add Your Car</button>
                     </div>
                   </div>
@@ -89,7 +89,7 @@
             </div>
           </section>
           <!--/ Home Slider -->
-      
+
           <main>
 
       <x-search-form />
@@ -98,9 +98,9 @@
               <div class="container">
                 <h2>Latest Added Cars</h2>
                 <div class="car-items-listing">
-                    @for ($i=0;$i<15;$i++)
-                      <x-car-item/>
-                    @endfor
+                    @foreach($cars as $car)
+                      <x-car-item :$car/>
+                    @endforeach
                 </div>
                 {{-- <div class="car-items-listing">
                   <div class="car-item card">
