@@ -77,4 +77,5 @@ class car extends Model
     {
         return (new Carbon($this->created_at))->format('Y-m-d');
     }
+
 }

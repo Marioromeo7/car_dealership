@@ -1,5 +1,6 @@
 <x-app-layout>
     @include('patials.header')
+
     <main>
         <!-- New Cars -->
         <section>
@@ -8,13 +9,13 @@
                 <h2>My Favourite Cars</h2>
                     @if($cars->total()>0)
                         <p>
-                            showing {{$cars->firstItem()}} to {{$cars->lastItem}} of {{$cars->total}} results
+                            showing {{$cars->firstItem()}} to {{$cars->lastItem()}} of {{$cars->total()}} results
                         </p>
                     @endif
                 </div>
                 <div class="car-items-listing">
                 @forelse($cars as $car)
-                    <x-car-item :$car :inwatch="true"/>
+                    <x-car-item :$car :$user  :inwatch="true"/>
                     @empty
     <h2 class="p-large text-center">you have no favourite cars</h2>
 @endforelse

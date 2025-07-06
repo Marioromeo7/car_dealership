@@ -66,12 +66,30 @@ class carController extends Controller
         //
     }
     public function search(){
+        $user=User::find(1);
         $query=car::where('published_at','<',now())->with(['PrimaryImage','city','maker','model','CarType','FuelType'])->orderBy('published_at','desc');
-        $cars=$cars=$query->paginate(15);
-        return view('car.search',['cars'=>$cars,'carCount'=>$cars->total()]);
+        $cars=$query->paginate(15);
+        return view('car.search',['cars'=>$cars,'carCount'=>$cars->total(),'user'=>$user]);
     }
     public function watchlist(){
+        $user=User::find(4);
         $cars=User::find(4)->favouriteCars()->with(['PrimaryImage','city','maker','model','CarType','FuelType'])->paginate(5);
-        return view('car.watchlist',['cars'=>$cars]);
+        return view('car.watchlist',['cars'=>$cars,'user'=>$user]);
     }
+    public function changefavourability(Request $request){
+        $inwatch=$request->boolean('inwatch');
+        $car=car::find($request->input('car_id'));
+        $user=User::find($request->input('user_id'));
+        $inwatch=!$inwatch;
+        if(!$inwatch){
+            $car->favoredUsers()->detach([$user->id]);
+        }
+        else{
+            $car->favoredUsers()->attach([$user->id]);
+        }
+        $user->load('favouriteCars');
+        return redirect()->back()->with('inwatch',$inwatch);
+    }
+
+
 }

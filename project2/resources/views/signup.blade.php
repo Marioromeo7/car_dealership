@@ -12,27 +12,28 @@
           </div>
           <h1 class="auth-page-title">Signup</h1>
 
-          <form action="" method="post">
+          <form action="{{route("createUser")}}" method="post">
+              @csrf
             <div class="form-group">
-              <input type="email" placeholder="Your Email" />
+              <input type="email" placeholder="Your Email" name="email"/>
             </div>
             <div class="form-group">
-              <input type="password" placeholder="Your Password" />
+              <input type="password" placeholder="Your Password" name="password"/>
             </div>
             <div class="form-group">
-              <input type="password" placeholder="Repeat Password" />
+              <input type="password" placeholder="Repeat Password" name="password2"/>
             </div>
             <hr />
             <div class="form-group">
-              <input type="text" placeholder="First Name" />
+              <input type="text" placeholder="First Name"  name="n1"/>
             </div>
             <div class="form-group">
-              <input type="text" placeholder="Last Name" />
+              <input type="text" placeholder="Last Name" name="n2"/>
             </div>
             <div class="form-group">
-              <input type="text" placeholder="Phone" />
+              <input type="text" placeholder="Phone" name="phone"/>
             </div>
-            <button class="btn btn-primary btn-login w-full">Register</button>
+            <button class="btn btn-primary btn-login w-full" type="submit">Register</button>
 
             <div class="grid grid-cols-2 gap-1 social-auth-buttons">
               <button
