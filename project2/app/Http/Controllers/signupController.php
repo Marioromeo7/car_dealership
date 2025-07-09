@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
+use \App\services\userService;
 class signupController extends Controller
 {
+    protected $user_service=new \App\services\userService();
     function create(){
         return view('signup');
     }
     function createUser(Request $request){
-        User::create(['name'=>$request->input('n1').$request->input('n2'),'email'=>$request->input('email'),'password'=>$request->input('password'),'phone'=>$request->input('phone')]);
+        $this->user_service->signup($request);
         return redirect('/car');
     }
 }

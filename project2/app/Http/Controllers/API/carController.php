@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Models\car;
 use App\Models\carType;
 use App\Models\FuelType;
 use App\Models\maker;
 use App\Models\state;
-use App\Models\User;
 use Illuminate\Http\Request;
-use \App\services\carService;
 
 class carController extends Controller
 {
-    protected $car_service=new carService();
+        protected $car_service=new carService();
     protected $user_service=new userService();
     /**
      * Display a listing of the resource.
@@ -21,7 +20,7 @@ class carController extends Controller
     public function index()
     {
         $cars = $this->user_service->getUserCars(1)->paginate(10);
-        return view('car.index',['cars'=>$cars]);
+        return response()->json(['cars'=>$cars]);
     }
 
     /**
@@ -31,9 +30,9 @@ class carController extends Controller
     {
         $makers = maker::all();
         $types = carType::all();
-        $fuels=fuelType::all();
+        $fuels=FuelType::all();
         $states=state::all();
-        return view('car.create',['makers'=>$makers,'types'=>$types,'fuels'=>$fuels,'states'=>$states]);
+        return response()->json(['makers'=>$makers,'types'=>$types,'fuels'=>$fuels,'states'=>$states]);
     }
 
     /**
@@ -42,7 +41,6 @@ class carController extends Controller
     public function store(Request $request)
     {
         $this->car_service->createCar($request);
-        return redirect('/car');
     }
 
     /**
@@ -50,7 +48,7 @@ class carController extends Controller
      */
     public function show(Car $car)
     {
-        return view('car.show',['car'=>$car]);
+        return response()->json(['car'=>$car]);
     }
 
     /**
@@ -60,9 +58,9 @@ class carController extends Controller
     {
         $makers = maker::all();
         $types = carType::all();
-        $fuels=fuelType::all();
+        $fuels=FuelType::all();
         $states=state::all();
-        return view('car.edit',['makers'=>$makers,'types'=>$types,'fuels'=>$fuels,'states'=>$states]);
+        return response()->json(['makers'=>$makers,'types'=>$types,'fuels'=>$fuels,'states'=>$states]);
     }
 
     /**
@@ -71,7 +69,6 @@ class carController extends Controller
     public function update(Request $request, car $car)
     {
         $this->car_service->editCar($request, $car);
-        return redirect('/car');
     }
 
     /**
@@ -85,16 +82,14 @@ class carController extends Controller
         $user=$this->user_service->getUserByID(1); // Assuming user ID 1 is the logged-in user
         $query=$this->car_service->getPublishedCars();
         $cars=$query->paginate(15);
-        return view('car.search',['cars'=>$cars,'carCount'=>$cars->total(),'user'=>$user]);
+        return response()->json(['cars'=>$cars,'carCount'=>$cars->total(),'user'=>$user]);
     }
     public function watchlist(){
         $user=$this->user_service->getUserByID(4); // Assuming user ID 4 is the logged-in user
         $cars=$this->car_service->getFavourites($user)->paginate(5);
-        return view('car.watchlist',['cars'=>$cars,'user'=>$user]);
+        return response()->json(['user'=>$user,'cars'=>$cars]);
     }
     public function changefavourability(Request $request){
-        return redirect()->back()->with('inwatch',$this->car_service->change_favourite($request));
+        $this->car_service->change_favourite($request);
     }
-
-
 }

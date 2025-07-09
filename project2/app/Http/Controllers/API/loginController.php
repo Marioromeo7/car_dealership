@@ -1,28 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
-use App\services\userService;
-use App\Models\User;
+namespace App\Http\Controllers\API;
+
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class loginController extends Controller
 {
     protected $user_service=new userService();
-    function create(){
-        return view('login');
-    }
-    function getUser(Request $request){
+        function getUser(Request $request){
         $users=$this->user_service->getMatchedUsers($request);
         if(count($users)==0){
-            return redirect("/signup");
+            return response()->json([]);
         }else{
             foreach($users as $user){
                 if($this->user_service->checkPass($request, $user)){
-                    return redirect('/car');
+                    return response()->json(['user'=>$user]);
                 }
             }
-            return redirect("/signup");
+            return response()->json([]);
         }
     }
 }
