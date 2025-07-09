@@ -8,13 +8,18 @@ use App\Models\FuelType;
 use App\Models\maker;
 use App\Models\state;
 use App\Models\User;
+use App\services\userService;
 use Illuminate\Http\Request;
 use \App\services\carService;
 
 class carController extends Controller
 {
-    protected $car_service=new carService();
-    protected $user_service=new userService();
+    protected $car_service;
+    protected $user_service;
+        public function __construct(carService $car_service,userService $user_Service){
+        $this->car_service=$car_service;
+        $this->user_service=$user_Service;
+    }
     /**
      * Display a listing of the resource.
      */
