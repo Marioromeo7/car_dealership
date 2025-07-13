@@ -16,7 +16,7 @@ class carService
         //
     }
     public function change_favourite(Request $request){
-                $inwatch=$request->boolean('inwatch');
+        $inwatch=$request->boolean('inwatch');
         $car=car::find($request->input('car_id'));
         $user=User::find($request->input('user_id'));
         $inwatch=!$inwatch;
@@ -30,10 +30,10 @@ class carService
         return $inwatch;
     }
     public function getFavourites(User $user){
-        return $user->favouriteCars()->with(['PrimaryImage','maker','model'])->orderBy('created_at', 'desc')->get();
+        return $user->favouriteCars()->with(['PrimaryImage','maker','model'])->orderBy('created_at', 'desc');
     }
     public function getPublishedCars(){
-        return car::where('published_at','<',now())->with(['PrimaryImage','city','maker','model','CarType','FuelType'])->orderBy('published_at','desc');
+        return car::where('published_at','<',now())->with(['PrimaryImage','city','maker','model','CarType','FuelType'])->orderBy('published_at','desc')->get();
     }
     public function delCar(string $id){
         car::destroy($id);

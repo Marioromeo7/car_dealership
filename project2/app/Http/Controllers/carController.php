@@ -7,7 +7,6 @@ use App\Models\carType;
 use App\Models\FuelType;
 use App\Models\maker;
 use App\Models\state;
-use App\Models\User;
 use App\services\userService;
 use Illuminate\Http\Request;
 use \App\services\carService;
@@ -55,7 +54,8 @@ class carController extends Controller
      */
     public function show(Car $car)
     {
-        return view('car.show',['car'=>$car]);
+        $user = $this->user_service->getUserByID(1); // Assuming user ID 1 is the logged-in user
+        return view('car.show',['car'=>$car,'user'=>$user]);
     }
 
     /**
@@ -94,7 +94,8 @@ class carController extends Controller
     }
     public function watchlist(){
         $user=$this->user_service->getUserByID(4); // Assuming user ID 4 is the logged-in user
-        $cars=$this->car_service->getFavourites($user)->paginate(5);
+        $cars=$this->car_service->getFavourites($user);
+        $cars=$cars->paginate(5);
         return view('car.watchlist',['cars'=>$cars,'user'=>$user]);
     }
     public function changefavourability(Request $request){
