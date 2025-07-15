@@ -2,6 +2,8 @@
 
 namespace App\services;
 
+use App\Data\carDTOData;
+use App\Data\favoriteDTOData;
 use App\Models\car;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,11 +17,10 @@ class carService
     {
         //
     }
-    public function change_favourite(Request $request){
-        $inwatch=$request->boolean('inwatch');
-        $car=car::find($request->input('car_id'));
-        $user=User::find($request->input('user_id'));
-        $inwatch=!$inwatch;
+    public function change_favourite(favoriteDTOData $favoriteDTOData){
+        $car=car::find($favoriteDTOData->carId);
+        $user=User::find($favoriteDTOData->userId);
+        $inwatch=!$favoriteDTOData->inwatch;
         if(!$inwatch){
             $car->favoredUsers()->detach([$user->id]);
         }
@@ -38,10 +39,10 @@ class carService
     public function delCar(string $id){
         car::destroy($id);
     }
-    public function createCar(Request $request){
-        car::create(request()->all());
+    public function createCar(carDTOData $carDTOData){
+        car::create($carDTOData->toArray());
     }
-    public function editCar(Request $request, car $car){
-        $car->update($request->all());
+    public function editCar(carDTOData $carDTOData, car $car){
+        $car->update($carDTOData->toArray());
     }
 }

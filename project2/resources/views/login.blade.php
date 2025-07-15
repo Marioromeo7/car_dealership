@@ -13,6 +13,7 @@
           <h1 class="auth-page-title">Login</h1>
 
           <form action="{{route('getUser')}}" method="GET">
+            @csrf
             <div class="form-group">
               <input type="email" placeholder="Your Email" name="email"  />
             </div>

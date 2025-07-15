@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Data\carDTOData;
+use App\Data\favoriteDTOData;
+use App\Http\Requests\carRequest;
+use App\Http\Requests\favoriteRequest;
 use App\Models\car;
 use App\Models\carType;
 use App\Models\FuelType;
@@ -43,9 +47,9 @@ class carController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(carRequest $request)
     {
-        $this->car_service->createCar($request);
+        $this->car_service->createCar(carDTOData::fromRequest($request));
         return redirect('/car');
     }
 
@@ -73,9 +77,9 @@ class carController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, car $car)
+    public function update(carRequest $request, car $car)
     {
-        $this->car_service->editCar($request, $car);
+        $this->car_service->editCar(carDTOData::fromRequest($request), $car);
         return redirect('/car');
     }
 
@@ -98,8 +102,8 @@ class carController extends Controller
         $cars=$cars->paginate(5);
         return view('car.watchlist',['cars'=>$cars,'user'=>$user]);
     }
-    public function changefavourability(Request $request){
-        return redirect()->back()->with('inwatch',$this->car_service->change_favourite($request));
+    public function changefavourability(favoriteRequest $request){
+        return redirect()->back()->with('inwatch',$this->car_service->change_favourite(favoriteDTOData::fromRequest($request)));
     }
 
 

@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Data\loginDTOData;
+use App\Http\Requests\loginRequest;
 use App\services\userService;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,13 +19,14 @@ class loginController extends Controller
     function create(){
         return view('login');
     }
-    function getUser(Request $request){
-        $users=$this->user_service->getMatchedUsers($request);
+    function getUser(loginRequest $request){
+        $users=$this->user_service->getMatchedUsers(loginDTOData::fromRequest($request));
+         // Check if no users found
         if(count($users)==0){
             return redirect("/signup");
         }else{
             foreach($users as $user){
-                if($this->user_service->checkPass($request, $user)){
+                if($this->user_service->checkPass(loginDTOData::fromRequest($request), $user)){
                     return redirect('/car');
                 }
             }
