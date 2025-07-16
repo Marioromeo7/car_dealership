@@ -4,6 +4,9 @@ namespace App\services;
 
 use App\Data\carDTOData;
 use App\Data\favoriteDTOData;
+use App\Http\DataTransferObjects\CarDTO;
+use App\DataTransferObjects\DTOInterface;
+use App\Http\DataTransferObjects\FavoriteDTO;
 use App\Models\car;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,10 +20,15 @@ class carService
     {
         //
     }
-    public function change_favourite(favoriteDTOData $favoriteDTOData){
-        $car=car::find($favoriteDTOData->carId);
-        $user=User::find($favoriteDTOData->userId);
-        $inwatch=!$favoriteDTOData->inwatch;
+    public function change_favourite(FavoriteDTO $favoriteDTO){
+        $favoriteDTO=FavoriteDTO::fromArray(
+            $favoriteDTO->toArray()
+        );
+        $favoriteDTO->validate();
+        $data = $favoriteDTO->toArray();
+        $car=car::find($favoriteDTO->carId);
+        $user=User::find($favoriteDTO->userId);
+        $inwatch=!$favoriteDTO->inwatch;
         if(!$inwatch){
             $car->favoredUsers()->detach([$user->id]);
         }
@@ -39,10 +47,10 @@ class carService
     public function delCar(string $id){
         car::destroy($id);
     }
-    public function createCar(carDTOData $carDTOData){
-        car::create($carDTOData->toArray());
+    public function createCar(CarDTO $carDTO){
+        car::create($carDTO->toArray());
     }
-    public function editCar(carDTOData $carDTOData, car $car){
-        $car->update($carDTOData->toArray());
+    public function editCar(CarDTO $carDTO, car $car){
+        $car->update($carDTO->toArray());
     }
 }

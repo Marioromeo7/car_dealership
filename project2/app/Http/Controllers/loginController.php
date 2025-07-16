@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Data\loginDTOData;
+use App\Http\DataTransferObjects\LoginDTO;
 use App\Http\Requests\loginRequest;
 use App\services\userService;
 use App\Models\User;
@@ -20,13 +21,16 @@ class loginController extends Controller
         return view('login');
     }
     function getUser(loginRequest $request){
-        $users=$this->user_service->getMatchedUsers(loginDTOData::fromRequest($request));
+        $dto = LoginDTO::fromRequest($request);
+        $dto->validate();
+        $dto = LoginDTO::fromArray($dto->toArray());
+        $users=$this->user_service->getMatchedUsers($dto);
          // Check if no users found
         if(count($users)==0){
             return redirect("/signup");
         }else{
             foreach($users as $user){
-                if($this->user_service->checkPass(loginDTOData::fromRequest($request), $user)){
+                if($this->user_service->checkPass($dto, $user)){
                     return redirect('/car');
                 }
             }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Data\signupDTOData;
+use App\Http\DataTransferObjects\SignupDTO;
 use App\Http\Requests\signupRequest;
 use Illuminate\Http\Request;
 use \App\services\userService;
@@ -17,7 +18,10 @@ class signupController extends Controller
         return view('signup');
     }
     function createUser(signupRequest $request){
-        $this->user_service->signup(signupDTOData::fromRequest($request));
+        $dto = SignupDTO::fromRequest($request);
+        $dto->validate();
+        $dto = SignupDTO::fromArray($dto->toArray());
+        $this->user_service->signup($dto);
         return redirect('/car');
     }
 }

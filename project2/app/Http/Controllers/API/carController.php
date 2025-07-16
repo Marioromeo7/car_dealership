@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Data\carDTOData;
 use App\Data\favoriteDTOData;
+use App\Http\DataTransferObjects\CarDTO;
+use App\Http\DataTransferObjects\FavoriteDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\carRequest;
 use App\Http\Requests\favoriteRequest;
@@ -50,7 +52,10 @@ class carController extends Controller
      */
     public function store(carRequest $request)
     {
-        $this->car_service->createCar(carDTOData::fromRequest($request));
+        $dto = CarDTO::fromRequest($request);
+        $dto->validate();
+        $dto= CarDTO::fromArray($dto->toArray());
+        $this->car_service->createCar($dto);
     }
 
     /**
@@ -78,7 +83,10 @@ class carController extends Controller
      */
     public function update(carRequest $request, car $car)
     {
-        $this->car_service->editCar(carDTOData::fromRequest($request), $car);
+        $dto = CarDTO::fromRequest($request);
+        $dto->validate();
+        $dto = CarDTO::fromArray($dto->toArray());
+        $this->car_service->editCar($dto, $car);
     }
 
     /**
@@ -100,6 +108,9 @@ class carController extends Controller
         return response()->json(['user'=>$user,'cars'=>$cars]);
     }
     public function changefavourability(favoriteRequest $request){
-        $this->car_service->change_favourite(favoriteDTOData::fromRequest($request));
+        $dto = FavoriteDTO::fromRequest($request);
+        $dto->validate();
+        $dto = FavoriteDTO::fromArray($dto->toArray());
+        $this->car_service->change_favourite($dto);
     }
 }

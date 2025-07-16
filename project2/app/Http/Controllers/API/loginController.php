@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Data\loginDTOData;
 use App\Http\Controllers\Controller;
+use App\Http\DataTransferObjects\LoginDTO;
 use App\Http\Requests\loginRequest;
 use App\services\userService;
 use Illuminate\Http\Request;
@@ -14,14 +15,17 @@ class loginController extends Controller
     public function __construct(userService $user_service){
         $this->user_service = $user_service;
     }
-        function getUser(loginRequest $request){            
+        function getUser(loginRequest $request){  
+        $dto = LoginDTO::fromRequest($request);
+        $dto->validate();
+        $dto = LoginDTO::fromArray($dto->toArray());          
             // return response()->json(["request"=>$request]);
-        $users=$this->user_service->getMatchedUsers(loginDTOData::fromRequest($request));
+        $users=$this->user_service->getMatchedUsers($dto);
         if(count($users)==0){
             return response()->json([]);
         }else{
             foreach($users as $user){
-                if($this->user_service->checkPass(loginDTOData::fromRequest($request), $user)){
+                if($this->user_service->checkPass($dto, $user)){
                     return response()->json(['user'=>$user]);
                 }
             }

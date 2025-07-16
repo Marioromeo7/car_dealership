@@ -21,4 +21,5 @@ class favoriteDTOData extends Data
             inwatch: $request->boolean('inwatch')
         );
     }
+    
 }
