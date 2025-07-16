@@ -17,8 +17,7 @@ class loginController extends Controller
     }
         function getUser(loginRequest $request){  
         $dto = LoginDTO::fromRequest($request);
-        $dto->validate();
-        $dto = LoginDTO::fromArray($dto->toArray());          
+        $dto->validate();        
             // return response()->json(["request"=>$request]);
         $users=$this->user_service->getMatchedUsers($dto);
         if(count($users)==0){

@@ -20,7 +20,6 @@ class signupController extends Controller
     function createUser(signupRequest $request){
         $dto = SignupDTO::fromRequest($request);
         $dto->validate();
-        $dto = SignupDTO::fromArray($dto->toArray());
         $this->user_service->signup($dto);
         return redirect('/car');
     }

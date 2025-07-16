@@ -4,6 +4,7 @@ namespace App\services;
 
 use App\Data\loginDTOData;
 use App\Data\signupDTOData;
+use App\Http\DataTransferObjects\DTOInterface;
 use App\Http\DataTransferObjects\LoginDTO;
 use App\Http\DataTransferObjects\SignupDTO;
 use App\Models\User;
@@ -18,13 +19,13 @@ class userService
     {
         //
     }
-    public function signup(SignupDTO $signupDTOData){
+    public function signup(SignupDTO | DTOInterface $signupDTOData){
         User::create(['name'=>$signupDTOData->name,'email'=>$signupDTOData->email,'password'=>$signupDTOData->password,'phone'=>$signupDTOData->phone]);
     }
-    public function getMatchedUsers(LoginDTO $loginDTOData){
+    public function getMatchedUsers(LoginDTO|DTOInterface $loginDTOData){
         return User::where('email',$loginDTOData->email)->get();
     }
-    public function checkPass(LoginDTO $loginDTOData, User $user){
+    public function checkPass(LoginDTO|DTOInterface $loginDTOData, User $user){
         return $loginDTOData->password==$user->password;
     }
     public function getUserByID($id){

@@ -65,5 +65,4 @@ class LoginDTO extends BaseDTO
 }
 
 
-    /**
- 
+

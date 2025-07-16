@@ -54,8 +54,8 @@ class carController extends Controller
     {
         $dto = CarDTO::fromRequest($request);
         $dto->validate();
-        $dto= CarDTO::fromArray($dto->toArray());
         $this->car_service->createCar($dto);
+        return response()->json(['message' => 'Car created successfully']);
     }
 
     /**
@@ -85,8 +85,8 @@ class carController extends Controller
     {
         $dto = CarDTO::fromRequest($request);
         $dto->validate();
-        $dto = CarDTO::fromArray($dto->toArray());
         $this->car_service->editCar($dto, $car);
+        return response()->json(['message' => 'Car updated successfully']);
     }
 
     /**
@@ -95,6 +95,7 @@ class carController extends Controller
     public function destroy(string $id)
     {
         $this->car_service->delCar($id);
+        return response()->json(['message' => 'Car deleted successfully']);
     }
     public function search(){
         $user=$this->user_service->getUserByID(1); // Assuming user ID 1 is the logged-in user
@@ -110,7 +111,7 @@ class carController extends Controller
     public function changefavourability(favoriteRequest $request){
         $dto = FavoriteDTO::fromRequest($request);
         $dto->validate();
-        $dto = FavoriteDTO::fromArray($dto->toArray());
         $this->car_service->change_favourite($dto);
+        return response()->json(['message' => 'Favourability changed successfully']);
     }
 }

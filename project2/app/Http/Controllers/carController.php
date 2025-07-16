@@ -85,7 +85,6 @@ class carController extends Controller
     {
         $dto =CarDTO::fromRequest($request);
         $dto->validate();
-        $dto = CarDTO::fromArray($dto->toArray());
         $this->car_service->editCar($dto, $car);
         return redirect('/car');
     }
@@ -112,7 +111,6 @@ class carController extends Controller
     public function changefavourability(favoriteRequest $request){
         $favoriteDTO = FavoriteDTO::fromRequest($request);
         $favoriteDTO->validate();
-        $favoriteDTO = FavoriteDTO::fromArray($favoriteDTO->toArray());
         $inwatch = $this->car_service->change_favourite($favoriteDTO);
         return redirect()->back()->with('inwatch', $inwatch);
     }
