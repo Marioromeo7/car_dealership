@@ -39,7 +39,7 @@ class carService
         return $user->favouriteCars()->with(['PrimaryImage','maker','model'])->orderBy('created_at', 'desc');
     }
     public function getPublishedCars(){
-        return car::where('published_at','<',now())->with(['PrimaryImage','city','maker','model','CarType','FuelType'])->orderBy('published_at','desc')->get();
+        return car::where('published_at','<',now())->with(['PrimaryImage','city','maker','model','CarType','FuelType'])->orderBy('published_at','desc');
     }
     public function delCar(string $id){
         car::destroy($id);

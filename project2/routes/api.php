@@ -16,4 +16,4 @@ Route::post('/getUser',[loginController::class,'getUser'])->name('api.getUser');
 Route::get('/car/search',[carController::class,"search"])->name('api.car.search');
 Route::get('/car/watchlist',[carController::class,"watchlist"])->name('api.car.watchlist');
 Route::put('/car/changefavourability',[carController::class,"changefavourability"])->name('api.car.changefavourability');
-Route::resource('api.car',carController::class);
+Route::resource('car',carController::class);

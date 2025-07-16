@@ -17,7 +17,7 @@ class helloController extends Controller
         $this->user_service=$user_service;
     }
     function index(){
-        $cars=$this->car_service->getPublishedCars();
+        $cars=$this->car_service->getPublishedCars()->get();
         $user=$this->user_service->getUserByID(1);
         return view("home",['cars'=>$cars,'user'=>$user]);
     }

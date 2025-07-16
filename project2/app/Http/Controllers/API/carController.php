@@ -9,6 +9,9 @@ use App\Http\DataTransferObjects\FavoriteDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\carRequest;
 use App\Http\Requests\favoriteRequest;
+use App\Http\Resources\carCollection;
+use App\Http\Resources\carResource;
+use App\Http\Resources\userCollection;
 use App\Models\car;
 use App\Models\carType;
 use App\Models\FuelType;
@@ -32,7 +35,7 @@ class carController extends Controller
     public function index()
     {
         $cars = $this->user_service->getUserCars(1)->paginate(10);
-        return response()->json(['cars'=>$cars]);
+        return new carCollection($cars);
     }
 
     /**
@@ -63,7 +66,7 @@ class carController extends Controller
      */
     public function show(Car $car)
     {
-        return response()->json(['car'=>$car]);
+        return new carResource($car);
     }
 
     /**
@@ -101,12 +104,12 @@ class carController extends Controller
         $user=$this->user_service->getUserByID(1); // Assuming user ID 1 is the logged-in user
         $query=$this->car_service->getPublishedCars();
         $cars=$query->paginate(15);
-        return response()->json(['cars'=>$cars,'carCount'=>$cars->total(),'user'=>$user]);
+        return new carCollection($cars);
     }
     public function watchlist(){
         $user=$this->user_service->getUserByID(4); // Assuming user ID 4 is the logged-in user
-        $cars=$this->car_service->getFavourites($user)->paginate(5);
-        return response()->json(['user'=>$user,'cars'=>$cars]);
+        $cars=$this->car_service->getFavourites($user)->get();
+        return new carCollection($cars);
     }
     public function changefavourability(favoriteRequest $request){
         $dto = FavoriteDTO::fromRequest($request);

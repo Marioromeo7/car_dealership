@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\carCollection;
 use App\Models\car;
 use App\Models\User;
 use App\services\carService;
@@ -18,11 +19,8 @@ class helloController extends Controller
         $this->user_service=$user_Service;
     }
         function index(){
-        $cars=$this->car_service->getPublishedCars();
+        $cars=$this->car_service->getPublishedCars()->get();
         $user=$this->user_service->getUserByID(1);
-        return response()->json([
-            'cars' => $cars,
-            'user' => $user
-        ]);
+        return new carCollection($cars);
     }
 }
