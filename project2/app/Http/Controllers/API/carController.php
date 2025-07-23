@@ -11,6 +11,7 @@ use App\Http\Requests\carRequest;
 use App\Http\Requests\favoriteRequest;
 use App\Http\Resources\carCollection;
 use App\Http\Resources\carResource;
+use App\Http\Resources\collectiveResource;
 use App\Http\Resources\userCollection;
 use App\Models\car;
 use App\Models\carType;
@@ -35,7 +36,8 @@ class carController extends Controller
     public function index()
     {
         $cars = $this->user_service->getUserCars(1)->paginate(10);
-        return new carCollection($cars);
+        return carResource::collection($cars);
+        // return new carCollection($cars);
     }
 
     /**
@@ -47,7 +49,12 @@ class carController extends Controller
         $types = carType::all();
         $fuels=FuelType::all();
         $states=state::all();
-        return response()->json(['makers'=>$makers,'types'=>$types,'fuels'=>$fuels,'states'=>$states]);
+        return collectiveResource::collection([
+            $makers,
+            $types,
+            $fuels,
+            $states
+        ]);
     }
 
     /**
@@ -66,7 +73,7 @@ class carController extends Controller
      */
     public function show(Car $car)
     {
-        return new carResource($car);
+        return carResource::collection($car);
     }
 
     /**
@@ -78,7 +85,12 @@ class carController extends Controller
         $types = carType::all();
         $fuels=FuelType::all();
         $states=state::all();
-        return response()->json(['makers'=>$makers,'types'=>$types,'fuels'=>$fuels,'states'=>$states]);
+        return collectiveResource::collection([
+            $makers,
+            $types,
+            $fuels,
+            $states
+        ]);
     }
 
     /**
@@ -104,12 +116,12 @@ class carController extends Controller
         $user=$this->user_service->getUserByID(1); // Assuming user ID 1 is the logged-in user
         $query=$this->car_service->getPublishedCars();
         $cars=$query->paginate(15);
-        return new carCollection($cars);
+        return carCollection::collection($cars);
     }
     public function watchlist(){
         $user=$this->user_service->getUserByID(4); // Assuming user ID 4 is the logged-in user
         $cars=$this->car_service->getFavourites($user)->get();
-        return new carCollection($cars);
+        return carCollection::collection($cars);
     }
     public function changefavourability(favoriteRequest $request){
         $dto = FavoriteDTO::fromRequest($request);

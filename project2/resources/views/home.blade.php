@@ -99,7 +99,7 @@
                 <h2>Latest Added Cars</h2>
                 <div class="car-items-listing">
                     @foreach($cars as $car)
-                      <x-car-item :$car :$user :inwatch="$user->favouriteCars->contains($car->id)"/>
+                      <x-car-item : :car="$car" :user="$user" :inwatch="$user->favouriteCars->contains($car->id)"/>
                     @endforeach
                 </div>
                 {{-- <div class="car-items-listing">

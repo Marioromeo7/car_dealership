@@ -6,6 +6,7 @@ use App\Data\loginDTOData;
 use App\Http\Controllers\Controller;
 use App\Http\DataTransferObjects\LoginDTO;
 use App\Http\Requests\loginRequest;
+use App\Http\Resources\userResource;
 use App\services\userService;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,7 @@ class loginController extends Controller
         }else{
             foreach($users as $user){
                 if($this->user_service->checkPass($dto, $user)){
-                    return response()->json(['user'=>$user]);
+                    return userResource::collection($users);
                 }
             }
             return response()->json([]);

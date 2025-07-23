@@ -21,6 +21,6 @@ class helloController extends Controller
         function index(){
         $cars=$this->car_service->getPublishedCars()->get();
         $user=$this->user_service->getUserByID(1);
-        return new carCollection($cars);
+        return carCollection::collection($cars);
     }
 }

@@ -38,11 +38,7 @@ class carController extends Controller
      */
     public function create()
     {
-        $makers = maker::all();
-        $types = carType::all();
-        $fuels=fuelType::all();
-        $states=state::all();
-        return view('car.create',['makers'=>$makers,'types'=>$types,'fuels'=>$fuels,'states'=>$states]);
+        return view('car.create');
     }
 
     /**
@@ -71,11 +67,8 @@ class carController extends Controller
      */
     public function edit(car $car)
     {
-        $makers = maker::all();
-        $types = carType::all();
-        $fuels=fuelType::all();
-        $states=state::all();
-        return view('car.edit',['makers'=>$makers,'types'=>$types,'fuels'=>$fuels,'states'=>$states]);
+        $car->load('CarFeature');
+        return view('car.edit',['car'=>$car]);
     }
 
     /**

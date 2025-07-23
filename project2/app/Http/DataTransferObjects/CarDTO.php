@@ -7,6 +7,7 @@ use App\Enum\Tenant\SellerInvoiceAction;
 use App\Enum\Tenant\SellerInvoiceStatus;
 use App\Rules\ValidatePhoneNumber;
 use App\Services\Tenant\OrderShipment\OrderShipmentService;
+use DateTime;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 
@@ -20,8 +21,14 @@ class CarDTO extends BaseDTO
      * @param int $year
      * @param string $fuelType
      * @param string $carType
-     * @param string $state
      * @param string $city
+     * @param string $vin
+     * @param int $mileage
+     * @param DateTime $published_at
+     * @param string $description
+     * @param string $phone
+     * @param string $address
+     * @param int $user_id
      */
     public function __construct(
         public string $make,
@@ -30,8 +37,14 @@ class CarDTO extends BaseDTO
         public float $price,
         public string $fuelType,
         public string $carType,
-        public string $state,
-        public string $city
+        public string $city,
+        public string $vin,
+        public int $mileage,
+        public ?DateTime $published_at = null,
+        public ?string $description = null,
+        public ?string $phone = null,
+        public ?string $address = null,
+        public ?int $user_id = 1
     )
     {
     }
@@ -45,8 +58,14 @@ class CarDTO extends BaseDTO
             price: $request->get('price'),
             fuelType: $request->get('fuel_type'),
             carType: $request->get('car_type'),
-            state: $request->get('state'),
-            city: $request->get('city')
+            city: $request->get('city'),
+            vin: $request->get('vin'),
+            mileage: $request->get('mileage'),
+            published_at: $request->get('published_at') ? $request->get('published_at') : null,
+            description: $request->get('description'),
+            phone: $request->get('phone'),
+            address: $request->get('address'),
+            user_id: $request->get('user_id', 1) // Default to user
         );
     }
 
@@ -64,8 +83,14 @@ class CarDTO extends BaseDTO
             price: Arr::get($data, 'price'),
             fuelType: Arr::get($data, 'fuel_type'),
             carType: Arr::get($data, 'car_type'),
-            state: Arr::get($data, 'state'),
-            city: Arr::get($data, 'city')
+            city: Arr::get($data, 'city'),
+            vin: Arr::get($data, 'vin'),
+            mileage: Arr::get($data, 'mileage'),
+            published_at: Arr::get($data, 'published_at') ? Arr::get($data, 'published_at') : null,
+            description: Arr::get($data, 'description'),
+            phone: Arr::get($data, 'phone'),
+            address: Arr::get($data, 'address'),
+            user_id: Arr::get($data, 'user_id', 1) // Default
         );
     }
 
@@ -75,14 +100,20 @@ class CarDTO extends BaseDTO
     public function toArray(): array
     {
         return [
-            'make' => $this->make,
-            'model' => $this->model,
+            'maker_id' => $this->make,
+            'model_id' => $this->model,
             'year' => $this->year,
             'price' => $this->price,
-            'fuel_type' => $this->fuelType,
-            'car_type' => $this->carType,
-            'state' => $this->state,
-            'city' => $this->city
+            'fuel_type_id' => $this->fuelType,
+            'car_type_id' => $this->carType,
+            'city_id' => $this->city,
+            'vin' => $this->vin,
+            'mileage' => $this->mileage,
+            'published_at' => $this->published_at ? $this->published_at : null,
+            'description' => $this->description,
+            'phone' => $this->phone,
+            'address' => $this->address,
+            'user_id' => $this->user_id,
         ];
     }
 
@@ -95,8 +126,14 @@ class CarDTO extends BaseDTO
             'price' => 'required|numeric|min:0',
             'fuel_type' => 'required|string|max:50',
             'car_type' => 'required|string|max:50',
-            'state' => 'required|string|max:100',
             'city' => 'required|string|max:100',
+            'vin' => 'required|string',
+            'mileage' => 'required|integer|min:0',
+            'published_at' => 'nullable|date',
+            'description' => 'nullable|string',
+            'phone' => 'nullable|string',
+            'address' => 'nullable|string',
+            'user_id' => 'nullable|integer',
         ];
     }
 }

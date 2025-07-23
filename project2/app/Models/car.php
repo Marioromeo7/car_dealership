@@ -13,7 +13,7 @@ class car extends Model
     use HasFactory,SoftDeletes;
     protected $table='car';
     protected $fillable=[
-'id',
+
 'model_id',
 'maker_id',
 'year',
@@ -56,7 +56,7 @@ class car extends Model
     {
         return $this->belongsTo(city::class,'city_id','id');
     }
-    function CarFeature():hasOne
+    function carFeature():hasOne
     {
         return $this->hasOne(carFeature::class,'car_id','id');
     }

@@ -23,7 +23,7 @@ class userResource extends JsonResource
             'profile_picture' => $this->profile_picture,
             'hashed_password' => $this->password->hashed,
             'password' => $this->password,
-            'favorite_cars' => new carCollection($this->favoriteCars),
+            'favorite_cars' => new carCollection($this->favoriteCars), // when relation loaded
         ];
     }
 }
